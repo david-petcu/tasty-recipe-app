@@ -4,9 +4,15 @@ import prisma from '~/server/utils/prisma'
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
 
+  if (!id || !/^\d+$/.test(id)) {
+    throw createError({ statusCode: 400, message: 'The chef ID is not valid.' })
+  }
+
+  const chefId = BigInt(id)
+
   const chef = await prisma.chefs.findUnique({
     where: {
-      id: BigInt(id)
+      id: chefId
     },
     select: {
       id: true,

@@ -48,6 +48,8 @@ export async function uploadImage(event: H3Event, chefId: bigint, part: MultiPar
   const extension = extensions[part.type!]
   const objectPath = `${kind}/${chefId}/${Date.now()}-${randomUUID()}.${extension}`
   const encodedPath = objectPath.split('/').map(encodeURIComponent).join('/')
+  const imageBytes = new Uint8Array(part.data.length)
+  imageBytes.set(part.data)
   const response = await fetch(`${url}/storage/v1/object/${BUCKET}/${encodedPath}`, {
     method: 'POST',
     headers: {
@@ -56,7 +58,7 @@ export async function uploadImage(event: H3Event, chefId: bigint, part: MultiPar
       'content-type': part.type!,
       'x-upsert': 'false'
     },
-    body: part.data
+    body: imageBytes
   })
 
   if (!response.ok) {

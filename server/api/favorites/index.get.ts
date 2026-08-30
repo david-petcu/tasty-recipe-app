@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
           id: true,
           title: true,
           description: true,
+          image: true,
           cooking_time: true,
           difficulty: true,
           category: true,

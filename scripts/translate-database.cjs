@@ -1,7 +1,6 @@
-require('dotenv').config()
+const { createPrismaClient } = require('./prisma-client.cjs')
 
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+let prisma
 
 const profiles = {
   1: { bio: 'Passionate about reinventing traditional Romanian cuisine.', location: 'Bucharest' },
@@ -160,6 +159,7 @@ async function addRecipe(tx, chefId, recipe) {
 }
 
 async function main() {
+  prisma = await createPrismaClient()
   await prisma.$transaction(async (tx) => {
     for (const [chefId, data] of Object.entries(profiles)) {
       await tx.chef_profiles.updateMany({ where: { chef_id: BigInt(chefId) }, data })
@@ -270,4 +270,4 @@ main()
     console.error(error)
     process.exitCode = 1
   })
-  .finally(() => prisma.$disconnect())
+  .finally(() => prisma?.$disconnect())

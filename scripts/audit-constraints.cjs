@@ -1,14 +1,14 @@
-require('dotenv').config()
+const { createPrismaClient } = require('./prisma-client.cjs')
 
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+let prisma
 
 async function main() {
+  prisma = await createPrismaClient()
   const tables = "'chefs','chef_profiles','recipes','ingredients','recipe_ingredients','recipe_favorites','recipe_reviews'"
   const constraints = await prisma.$queryRawUnsafe(`
     SELECT conrelid::regclass::text AS table_name,
            conname,
-           contype,
+           contype::text AS contype,
            pg_get_constraintdef(oid) AS definition
     FROM pg_constraint
     WHERE connamespace = 'public'::regnamespace
@@ -60,4 +60,4 @@ main()
     console.error(error)
     process.exitCode = 1
   })
-  .finally(() => prisma.$disconnect())
+  .finally(() => prisma?.$disconnect())

@@ -21,7 +21,7 @@ Tasty is a full-stack recipe community where visitors can discover recipes and c
 
 ## Technology
 
-- Nuxt 3, Vue 3 and TypeScript
+- Nuxt 4, Vue 3 and TypeScript
 - Tailwind CSS
 - Prisma ORM
 - PostgreSQL and Supabase
@@ -53,7 +53,7 @@ SQL migrations are stored in `prisma/migrations`. They also configure recipe ima
 
 Requirements:
 
-- Node.js 20
+- Node.js 24 LTS (24.20 recommended)
 - A PostgreSQL database or Supabase project
 
 Install dependencies and create the local environment file:
@@ -89,7 +89,7 @@ Open `http://localhost:3000`.
 Apply the SQL migrations to a new Supabase project in chronological order, then verify the constraints:
 
 ```powershell
-node scripts/audit-constraints.cjs
+npm run db:audit
 ```
 
 The audit script reads the database URL from your local environment and does not modify data.
@@ -108,8 +108,9 @@ No database URL or credential is embedded in `docker-compose.yml` or the built i
 
 ```powershell
 npm audit
+npm run typecheck
 npm run build
-node scripts/audit-constraints.cjs
+npm run db:audit
 ```
 
 ## Screenshots

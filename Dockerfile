@@ -1,5 +1,5 @@
 # 1. Use the Debian-based image for better Prisma compatibility.
-FROM node:20-slim
+FROM node:24.20.0-slim
 
 # 2. Install OpenSSL.
 RUN apt-get update -y && apt-get install -y openssl

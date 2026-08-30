@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // Keep the existing Nuxt 3-style application folders during the Nuxt 4
+  // migration. Server, public and generated Prisma files remain at root.
+  srcDir: '.',
+  dir: {
+    app: 'app'
+  },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
