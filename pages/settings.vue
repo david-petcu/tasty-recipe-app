@@ -66,8 +66,8 @@ async function deleteAccount() {
 </script>
 
 <template>
-  <div class="page-shell max-w-4xl">
-    <div class="mb-10"><p class="eyebrow">Your account</p><h1 class="mt-3 text-4xl font-extrabold text-white sm:text-5xl">Account settings</h1><p class="mt-4 max-w-2xl text-slate-500">Manage your public profile, password, and account.</p></div>
+  <div class="page-shell page-section max-w-4xl">
+    <div class="page-header"><p class="eyebrow">Your account</p><h1 class="page-title">Account settings</h1><p class="page-description">Manage your public profile, password, and account.</p></div>
 
     <div class="space-y-7">
       <section class="panel overflow-hidden">
@@ -93,10 +93,10 @@ async function deleteAccount() {
         </form>
       </section>
 
-      <section class="rounded-2xl border border-red-900/70 bg-red-950/20 p-6 sm:p-8">
+      <section class="rounded-xl border border-red-900/70 bg-red-950/20 p-6 sm:p-8">
         <h2 class="text-xl font-extrabold text-red-300">Delete account</h2><p class="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Deleting your account permanently removes your profile, recipes, and recipe ingredient links. This cannot be undone.</p>
         <div class="mt-6 max-w-md"><label class="field-label">Password confirmation</label><div class="relative"><input v-model="deletePassword" :type="showDeletePassword ? 'text' : 'password'" class="field pr-12" autocomplete="current-password" placeholder="Enter your password" /><button type="button" class="absolute right-1.5 top-1.5 flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-800 hover:text-white" :aria-label="showDeletePassword ? 'Hide password' : 'Show password'" @click="showDeletePassword = !showDeletePassword"><UiIcon :name="showDeletePassword ? 'eye-off' : 'eye'" :size="19" /></button></div></div>
-        <button type="button" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-red-800 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40" :disabled="!deletePassword" @click="deleteModalOpen = true"><UiIcon name="trash" :size="17" />Delete my account</button>
+        <button type="button" class="button-danger mt-4" :disabled="!deletePassword" @click="deleteModalOpen = true"><UiIcon name="trash" :size="17" />Delete my account</button>
       </section>
     </div>
 

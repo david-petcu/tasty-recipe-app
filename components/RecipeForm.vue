@@ -34,7 +34,7 @@ function submit() { emit('submit', structuredClone(toRaw(form.value))) }
 <template>
   <form class="space-y-6" @submit.prevent="submit">
     <section class="panel overflow-hidden">
-      <div class="flex items-start gap-4 border-b border-slate-800 bg-slate-950/40 px-6 py-5 sm:px-8"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-300"><UiIcon name="book" :size="22" /></span><div><h2 class="text-lg font-extrabold text-white">Recipe details</h2><p class="mt-1 text-sm text-slate-500">The essential information shown in the collection.</p></div></div>
+      <div class="flex items-start gap-4 border-b border-slate-800 bg-slate-950/40 px-6 py-5 sm:px-8"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-300"><UiIcon name="book" :size="22" /></span><div><h2 class="text-lg font-medium text-white">Recipe details</h2><p class="mt-1 text-sm text-slate-500">The essential information shown in the collection.</p></div></div>
       <div class="grid gap-5 p-6 sm:grid-cols-2 sm:p-8">
         <div><label class="field-label">Recipe title *</label><input v-model="form.title" class="field" maxlength="120" placeholder="Example: Mushroom risotto" required /></div>
         <div><label class="field-label">Short description</label><input v-model="form.description" class="field" maxlength="240" placeholder="What makes this recipe special?" /></div>
@@ -47,7 +47,7 @@ function submit() { emit('submit', structuredClone(toRaw(form.value))) }
     </section>
 
     <section class="panel overflow-hidden">
-      <div class="flex flex-col gap-4 border-b border-slate-800 bg-slate-950/40 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8"><div class="flex items-start gap-4"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-300"><UiIcon name="list" :size="22" /></span><div><h2 class="text-lg font-extrabold text-white">Ingredients</h2><p class="mt-1 text-sm text-slate-500">The unit is filled in automatically for existing ingredients.</p></div></div><button type="button" class="button-secondary py-2.5" @click="addIngredientRow"><UiIcon name="plus" :size="17" />Add ingredient</button></div>
+      <div class="flex flex-col gap-4 border-b border-slate-800 bg-slate-950/40 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8"><div class="flex items-start gap-4"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-300"><UiIcon name="list" :size="22" /></span><div><h2 class="text-lg font-medium text-white">Ingredients</h2><p class="mt-1 text-sm text-slate-500">The unit is filled in automatically for existing ingredients.</p></div></div><button type="button" class="button-secondary py-2.5" @click="addIngredientRow"><UiIcon name="plus" :size="17" />Add ingredient</button></div>
       <div class="space-y-3 p-6 sm:p-8">
         <datalist id="recipe-ingredient-list"><option v-for="item in existingIngredients" :key="item.id" :value="item.name">{{ item.unit }}</option></datalist>
         <div v-for="(ingredient, index) in form.ingredients" :key="index" class="grid gap-3 rounded-2xl border border-slate-800 bg-slate-950/40 p-4 sm:grid-cols-[1fr_130px_130px_44px] sm:items-end">
@@ -59,7 +59,7 @@ function submit() { emit('submit', structuredClone(toRaw(form.value))) }
       </div>
     </section>
 
-    <section class="panel p-6 sm:p-8"><div class="mb-5 flex items-start gap-4"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-300"><UiIcon name="utensils" :size="22" /></span><div><h2 class="text-lg font-extrabold text-white">Instructions</h2><p class="mt-1 text-sm text-slate-500">Describe each step clearly, in the order it should be followed.</p></div></div><textarea v-model="form.instructions" rows="8" class="field resize-y leading-relaxed" placeholder="Write the cooking instructions..." required></textarea></section>
+    <section class="panel p-6 sm:p-8"><div class="mb-5 flex items-start gap-4"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-300"><UiIcon name="utensils" :size="22" /></span><div><h2 class="text-lg font-medium text-white">Instructions</h2><p class="mt-1 text-sm text-slate-500">Describe each step clearly, in the order it should be followed.</p></div></div><textarea v-model="form.instructions" rows="8" class="field resize-y leading-relaxed" placeholder="Write the cooking instructions..." required></textarea></section>
 
     <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><slot name="cancel"><NuxtLink to="/" class="button-secondary">Cancel</NuxtLink></slot><button type="submit" class="button-primary min-w-48" :disabled="busy"><span v-if="busy">Saving...</span><template v-else><UiIcon name="check" :size="18" />{{ submitLabel }}</template></button></div>
   </form>

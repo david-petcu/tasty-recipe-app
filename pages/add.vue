@@ -23,8 +23,8 @@ async function submitRecipe(form: typeof initialValue) {
 </script>
 
 <template>
-  <div class="page-shell max-w-5xl">
-    <div class="mb-10 text-center"><p class="eyebrow">Contribute to the collection</p><h1 class="mt-3 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Publish a new recipe</h1><p class="mx-auto mt-4 max-w-2xl text-slate-500">The recipe will be published on <strong class="text-slate-300">{{ user?.username }}</strong>'s profile.</p></div>
+  <div class="page-shell page-section max-w-5xl">
+    <div class="page-header"><p class="eyebrow">Contribute to the collection</p><h1 class="page-title">Publish a new recipe</h1><p class="page-description">The recipe will appear on <strong class="font-medium text-slate-300">{{ user?.username }}</strong>'s profile.</p></div>
     <RecipeForm :initial-value="initialValue" :busy="submitting" submit-label="Publish recipe" @submit="submitRecipe" />
   </div>
 </template>

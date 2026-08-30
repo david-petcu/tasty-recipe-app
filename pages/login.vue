@@ -45,17 +45,17 @@ watch(mode, () => { errorMessage.value = '' })
 </script>
 
 <template>
-  <div class="page-shell max-w-lg">
+  <div class="page-shell max-w-lg py-10 sm:py-14">
     <div class="mb-8 text-center">
-      <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white"><UiIcon name="lock" :size="25" /></span>
-      <h1 class="mt-5 text-3xl font-extrabold text-slate-900">Welcome to Tasty</h1>
-      <p class="mt-2 text-sm text-slate-500">Sign in to publish and manage your recipes.</p>
+      <span class="mx-auto flex h-11 w-11 items-center justify-center rounded-lg border border-emerald-300/20 bg-emerald-300/10 text-emerald-200"><UiIcon name="lock" :size="21" /></span>
+      <h1 class="mt-5 text-3xl font-semibold text-stone-100">Welcome to Tasty</h1>
+      <p class="mt-2 text-sm text-slate-400">Sign in to publish and manage your recipes.</p>
     </div>
 
     <div class="panel p-5 sm:p-7">
-      <div class="mb-7 grid grid-cols-2 rounded-xl bg-slate-950 p-1">
-        <button type="button" class="rounded-lg px-4 py-2.5 text-sm font-bold transition" :class="mode === 'login' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'" @click="mode = 'login'">Sign in</button>
-        <button type="button" class="rounded-lg px-4 py-2.5 text-sm font-bold transition" :class="mode === 'signup' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'" @click="mode = 'signup'">Create account</button>
+      <div class="mb-7 grid grid-cols-2 rounded-lg bg-slate-950 p-1" role="tablist" aria-label="Authentication mode">
+        <button type="button" role="tab" :aria-selected="mode === 'login'" class="rounded-md px-4 py-2.5 text-sm font-semibold transition" :class="mode === 'login' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'" @click="mode = 'login'">Sign in</button>
+        <button type="button" role="tab" :aria-selected="mode === 'signup'" class="rounded-md px-4 py-2.5 text-sm font-semibold transition" :class="mode === 'signup' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'" @click="mode = 'signup'">Create account</button>
       </div>
 
       <div v-if="errorMessage" class="mb-5 flex gap-3 rounded-xl border border-red-900/60 bg-red-950/30 p-4 text-sm text-red-300"><UiIcon name="warning" :size="18" />{{ errorMessage }}</div>

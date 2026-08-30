@@ -43,8 +43,8 @@ async function updateRecipe(form: typeof initialValue) {
 </script>
 
 <template>
-  <div class="page-shell max-w-5xl">
-    <div class="mb-10 text-center"><p class="eyebrow">Recipe management</p><h1 class="mt-3 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Edit recipe</h1><p class="mx-auto mt-4 max-w-2xl text-slate-500">Update the details, ingredients, or instructions for <strong class="text-slate-300">{{ recipe?.title }}</strong>.</p></div>
+  <div class="page-shell page-section max-w-5xl">
+    <div class="page-header"><p class="eyebrow">Recipe management</p><h1 class="page-title">Edit recipe</h1><p class="page-description">Update the details, ingredients, or instructions for <strong class="font-medium text-slate-300">{{ recipe?.title }}</strong>.</p></div>
     <RecipeForm :initial-value="initialValue" :busy="submitting" submit-label="Save changes" @submit="updateRecipe"><template #cancel><NuxtLink :to="`/recipe/${id}`" class="button-secondary">Cancel</NuxtLink></template></RecipeForm>
   </div>
 </template>

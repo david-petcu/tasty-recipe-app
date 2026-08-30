@@ -19,11 +19,11 @@ async function removeSaved(recipeId: string | number) {
 </script>
 
 <template>
-  <div class="page-shell">
-    <section class="mb-10 rounded-2xl border border-slate-800 bg-slate-900 p-7 sm:p-10">
+  <div class="page-shell page-section">
+    <section class="mb-9 border-b border-slate-800 pb-8">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div><p class="eyebrow">Your collection</p><h1 class="mt-3 text-4xl font-extrabold text-white sm:text-5xl">Saved recipes</h1><p class="mt-4 max-w-2xl text-slate-500">Keep your favorite recipes close and return to them whenever you want to cook.</p></div>
-        <span v-if="recipes?.length" class="rounded-xl bg-slate-800 px-4 py-2 text-sm font-bold text-slate-300">{{ recipes.length }} saved</span>
+        <div><p class="eyebrow">Your collection</p><h1 class="page-title">Saved recipes</h1><p class="page-description">Keep your favorite recipes close and return to them whenever you want to cook.</p></div>
+        <span v-if="recipes?.length" class="badge">{{ recipes.length }} saved</span>
       </div>
     </section>
 
@@ -31,11 +31,11 @@ async function removeSaved(recipeId: string | number) {
     <div v-else-if="error" class="panel px-6 py-16 text-center"><UiIcon name="warning" :size="30" class="mx-auto text-red-400" /><h2 class="mt-4 text-xl font-extrabold text-white">Saved recipes could not be loaded</h2><button type="button" class="button-secondary mt-6" @click="refresh()">Try again</button></div>
     <div v-else-if="!recipes?.length" class="panel px-6 py-16 text-center"><span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-950/50 text-rose-300"><UiIcon name="heart" :size="26" /></span><h2 class="mt-5 text-xl font-extrabold text-white">No saved recipes yet</h2><p class="mt-2 text-slate-500">Open a recipe and select “Save recipe” to add it here.</p><NuxtLink to="/" class="button-primary mt-6">Explore recipes</NuxtLink></div>
     <div v-else class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <article v-for="recipe in recipes" :key="recipe.id" class="flex min-h-72 flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-emerald-800">
+      <article v-for="recipe in recipes" :key="recipe.id" class="flex min-h-72 flex-col overflow-hidden rounded-xl border border-slate-800 bg-slate-900/70 transition hover:border-slate-600 hover:bg-slate-900">
         <NuxtLink v-if="recipe.image" :to="`/recipe/${recipe.id}`" class="block h-40 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-400"><img :src="recipe.image" :alt="recipe.title" loading="lazy" class="h-full w-full object-cover transition duration-300 hover:scale-[1.03]" /></NuxtLink>
-        <NuxtLink :to="`/recipe/${recipe.id}`" class="group flex flex-1 flex-col p-7 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
-          <div class="mb-5 flex flex-wrap gap-2"><span class="rounded-full bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-300">{{ difficultyLabel[recipe.difficulty || 'medium'] }}</span><span class="rounded-full bg-emerald-950 px-3 py-1.5 text-xs font-bold text-emerald-300">{{ categoryLabel[recipe.category] }}</span></div>
-          <h2 class="text-xl font-extrabold text-white transition group-hover:text-emerald-300">{{ recipe.title }}</h2>
+        <NuxtLink :to="`/recipe/${recipe.id}`" class="group flex flex-1 flex-col p-5 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-300">
+          <div class="mb-4 flex flex-wrap gap-2"><span class="badge">{{ difficultyLabel[recipe.difficulty || 'medium'] }}</span><span class="badge-accent">{{ categoryLabel[recipe.category] }}</span></div>
+          <h2 class="text-lg font-semibold text-stone-100 transition group-hover:text-emerald-200">{{ recipe.title }}</h2>
           <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-500">{{ recipe.description || 'A recipe ready to be cooked and enjoyed.' }}</p>
           <div class="mt-auto flex items-center justify-between border-t border-slate-800 pt-5 text-sm text-slate-500"><span>{{ recipe.chefs.username }}</span><span class="flex items-center gap-1.5"><UiIcon name="clock" :size="15" />{{ recipe.cooking_time }} min</span></div>
         </NuxtLink>

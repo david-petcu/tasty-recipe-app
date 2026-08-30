@@ -5,6 +5,40 @@ const { notify } = useNotifications()
 const uploading = ref(false)
 const input = ref<HTMLInputElement | null>(null)
 
+const MAX_SOURCE_FILE_SIZE = 15 * 1024 * 1024
+const WEBP_QUALITY = 0.8
+
+async function compressImage(file: File) {
+  const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' })
+  const maxDimension = props.kind === 'profile' ? 512 : 1600
+  const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height))
+  const width = Math.max(1, Math.round(bitmap.width * scale))
+  const height = Math.max(1, Math.round(bitmap.height * scale))
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+
+  const context = canvas.getContext('2d')
+  if (!context) {
+    bitmap.close()
+    throw new Error('Image processing is not supported by this browser.')
+  }
+
+  context.drawImage(bitmap, 0, 0, width, height)
+  bitmap.close()
+
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      result => result ? resolve(result) : reject(new Error('The image could not be compressed.')),
+      'image/webp',
+      WEBP_QUALITY
+    )
+  })
+
+  const baseName = file.name.replace(/\.[^.]+$/, '') || 'image'
+  return new File([blob], `${baseName}.webp`, { type: 'image/webp', lastModified: Date.now() })
+}
+
 async function selectFile(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
@@ -12,19 +46,21 @@ async function selectFile(event: Event) {
     notify('Choose a JPEG, PNG, or WebP image.', 'error')
     return
   }
-  if (file.size > 5 * 1024 * 1024) {
-    notify('The image cannot exceed 5 MB.', 'error')
+  if (file.size > MAX_SOURCE_FILE_SIZE) {
+    notify('The original image cannot exceed 15 MB.', 'error')
     return
   }
 
   uploading.value = true
   try {
+    const optimizedFile = await compressImage(file)
     const body = new FormData()
-    body.append('file', file)
+    body.append('file', optimizedFile)
     body.append('kind', props.kind)
     const result = await $fetch<{ url: string }>('/api/uploads/image', { method: 'POST', body })
     emit('update:modelValue', result.url)
-    notify('Image uploaded successfully.', 'success')
+    const savedPercent = Math.max(0, Math.round((1 - optimizedFile.size / file.size) * 100))
+    notify(savedPercent > 0 ? `Image optimized and uploaded (${savedPercent}% smaller).` : 'Image optimized and uploaded.', 'success')
   } catch (error: any) {
     notify(error.data?.message || 'The image could not be uploaded.', 'error')
   } finally {
@@ -37,13 +73,13 @@ async function selectFile(event: Event) {
 <template>
   <div>
     <label class="field-label">{{ label }}</label>
-    <div class="flex flex-col gap-4 rounded-2xl border border-slate-700 bg-slate-950/50 p-4 sm:flex-row sm:items-center">
+    <div class="flex flex-col gap-4 rounded-xl border border-slate-700 bg-slate-950/50 p-4 sm:flex-row sm:items-center">
       <div class="flex h-24 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-900 text-slate-400 sm:w-32">
         <img v-if="modelValue" :src="modelValue" alt="Selected image preview" class="h-full w-full object-cover" />
         <UiIcon v-else name="image" :size="30" />
       </div>
       <div class="flex-1">
-        <p class="text-sm leading-6 text-slate-300">JPEG, PNG or WebP, up to 5 MB.</p>
+        <p class="text-sm leading-6 text-slate-300">JPEG, PNG or WebP, up to 15 MB. Images are optimized automatically.</p>
         <div class="mt-3 flex flex-wrap gap-2">
           <label class="button-secondary cursor-pointer py-2.5">
             <UiIcon name="image" :size="17" />{{ uploading ? 'Uploading...' : modelValue ? 'Replace image' : 'Upload image' }}

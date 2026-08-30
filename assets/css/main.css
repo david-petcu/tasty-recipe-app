@@ -1,46 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
-  html { scroll-behavior: smooth; }
-  html { font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; }
-  body { @apply bg-slate-950 text-slate-200 antialiased; font-family: inherit; color-scheme: dark; }
-  h1, h2, h3, h4, h5, h6 { @apply tracking-tight; font-family: inherit; }
-  button, input, select, textarea { font-family: inherit; }
+  :root {
+    color-scheme: dark;
+    --canvas: 10 12 14;
+    --surface: 18 21 24;
+    --border: 48 54 58;
+    --text: 242 242 239;
+    --accent: 132 204 170;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  body {
+    min-width: 320px;
+    background: rgb(var(--canvas));
+    color: rgb(var(--text));
+    font-family: inherit;
+    @apply antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 { @apply font-medium tracking-[-0.02em] text-stone-100; }
+  button, input, select, textarea { font: inherit; }
+  button, summary, select { cursor: pointer; }
+  ::selection { @apply bg-emerald-300 text-slate-950; }
+
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-    outline: 3px solid #34d399;
+    outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
   }
-  ::selection { @apply bg-emerald-700 text-white; }
-}
-@layer components {
-  .page-shell { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
-  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.16em] text-emerald-400; }
-  .panel { @apply rounded-2xl border border-slate-800 bg-slate-900 shadow-sm; }
-  .field { @apply w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10; }
-  .field-label { @apply mb-2 block text-sm font-semibold text-slate-300; }
-  .button-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-400/30 disabled:cursor-not-allowed disabled:opacity-50; }
-  .button-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-bold text-slate-200 transition hover:border-emerald-700 hover:bg-emerald-950 hover:text-emerald-300 focus:outline-none focus:ring-4 focus:ring-emerald-400/30 disabled:cursor-not-allowed disabled:opacity-40; }
-  .button-secondary:has(input:focus-visible) { outline: 3px solid #34d399; outline-offset: 3px; }
 }
 
-/* Dark theme mappings for utility-based page surfaces. */
-.dark-theme { min-height: 100vh; background: #020617; color: #e2e8f0; color-scheme: dark; }
-.dark-theme .bg-white, .dark-theme .bg-white\/95 { background-color: #0f172a !important; }
-.dark-theme .bg-slate-50, .dark-theme .bg-stone-50, .dark-theme .bg-stone-50\/60, .dark-theme .bg-stone-50\/70 { background-color: #111c30 !important; }
-.dark-theme .bg-slate-100, .dark-theme .bg-stone-100, .dark-theme .bg-stone-200, .dark-theme .bg-gray-100 { background-color: #1e293b !important; }
-.dark-theme .bg-emerald-50, .dark-theme .bg-emerald-100 { background-color: rgba(6, 78, 59, .38) !important; }
-.dark-theme .bg-red-50 { background-color: rgba(127, 29, 29, .28) !important; }
-.dark-theme .text-slate-900, .dark-theme .text-slate-800 { color: #f8fafc !important; }
-.dark-theme .text-slate-700, .dark-theme .text-slate-600 { color: #cbd5e1 !important; }
-.dark-theme .text-slate-500 { color: #94a3b8 !important; }
-.dark-theme .text-slate-400 { color: #94a3b8 !important; }
-.dark-theme .text-emerald-800, .dark-theme .text-emerald-700 { color: #34d399 !important; }
-.dark-theme .text-red-600 { color: #f87171 !important; }
-.dark-theme .border-white, .dark-theme .border-slate-100, .dark-theme .border-slate-200, .dark-theme .border-stone-100, .dark-theme .border-stone-200, .dark-theme .border-stone-200\/80 { border-color: #1e293b !important; }
-.dark-theme .divide-slate-100 > :not([hidden]) ~ :not([hidden]), .dark-theme .divide-stone-100 > :not([hidden]) ~ :not([hidden]), .dark-theme .divide-stone-200 > :not([hidden]) ~ :not([hidden]) { border-color: #1e293b !important; }
-.dark-theme .hover\:bg-stone-50:hover, .dark-theme .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
-.dark-theme .hover\:bg-emerald-50:hover { background-color: rgba(6, 78, 59, .42) !important; }
-.dark-theme .peer:checked ~ .peer-checked\:bg-white { background-color: #1e293b !important; }
+@layer components {
+  .page-shell { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .page-section { @apply py-8 sm:py-10 lg:py-12; }
+  .page-header { @apply mb-7 max-w-3xl sm:mb-9; }
+  .eyebrow { @apply mb-3 block text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-300; }
+  .page-title { overflow-wrap: anywhere; @apply text-3xl font-medium leading-tight text-stone-100 sm:text-4xl; }
+  .page-description { @apply mt-3 max-w-2xl text-base leading-7 text-slate-400; }
+
+  .panel { @apply rounded-xl border border-slate-800 bg-slate-900/70; }
+  .panel-raised { @apply rounded-xl border border-slate-700/80 bg-slate-900; }
+  .divider { @apply border-slate-800; }
+
+  .field { @apply min-w-0 w-full rounded-lg border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-sm text-stone-100 outline-none transition placeholder:text-slate-600 hover:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50; }
+  .field-label { @apply mb-2 block text-sm font-medium text-slate-300; }
+  .field-hint { @apply mt-1.5 text-xs leading-5 text-slate-500; }
+
+  .button-primary { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-emerald-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-emerald-300/30 disabled:cursor-not-allowed disabled:opacity-45; }
+  .button-secondary { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-300/20 disabled:cursor-not-allowed disabled:opacity-45; }
+  .button-ghost { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-stone-100; }
+  .button-danger { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-400/25 disabled:cursor-not-allowed disabled:opacity-45; }
+
+  .badge { @apply inline-flex items-center gap-1.5 rounded-md border border-slate-700/80 bg-slate-800/70 px-2.5 py-1 text-xs font-medium text-slate-300; }
+  .badge-accent { @apply inline-flex items-center gap-1.5 rounded-md border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-xs font-semibold text-emerald-200; }
+  .icon-button { @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-slate-600 hover:bg-slate-800 hover:text-white; }
+
+  .empty-state { @apply rounded-xl border border-dashed border-slate-700 bg-slate-900/40 px-6 py-12 text-center; }
+  .skeleton { @apply animate-pulse rounded-lg bg-slate-800; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* Compatibility for utility-authored views while they share the new dark system. */
+.bg-white, .bg-white\/95 { background-color: rgb(18 21 24); }
+.bg-slate-50, .bg-stone-50, .bg-stone-100, .bg-slate-100, .bg-stone-200 { background-color: rgb(28 32 35); }
+.bg-emerald-50, .bg-emerald-100 { background-color: rgb(52 211 153 / 0.1); }
+.bg-red-50 { background-color: rgb(239 68 68 / 0.1); }
+.text-slate-900, .text-slate-800 { color: rgb(245 245 244); }
+.text-slate-700, .text-slate-600 { color: rgb(203 213 225); }
+.text-emerald-800, .text-emerald-700 { color: rgb(167 243 208); }
+.text-red-600 { color: rgb(248 113 113); }
+.border-slate-100, .border-slate-200, .border-stone-100, .border-stone-200 { border-color: rgb(30 41 59); }
+.divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+.divide-stone-100 > :not([hidden]) ~ :not([hidden]),
+.divide-stone-200 > :not([hidden]) ~ :not([hidden]) { border-color: rgb(30 41 59); }
+
+/* Keep typography calm: legacy bold utilities are softened across the interface. */
+.font-extrabold, .font-black { font-weight: 500; }
+.font-bold, strong { font-weight: 600; }

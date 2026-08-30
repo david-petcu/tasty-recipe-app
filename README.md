@@ -70,10 +70,10 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST:6543/postgres?pgbouncer=true"
 DIRECT_URL="postgresql://USER:PASSWORD@HOST:5432/postgres"
 NUXT_AUTH_SECRET="a-long-random-secret"
 SUPABASE_URL="https://YOUR_PROJECT_REF.supabase.co"
-SUPABASE_SERVICE_ROLE_KEY="your-server-only-service-role-key"
+SUPABASE_SECRET_KEY="sb_secret_your-server-only-key"
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` is server-only. Never prefix it with `NUXT_PUBLIC_` and never commit `.env`.
+`SUPABASE_SECRET_KEY` is server-only. Never prefix it with `NUXT_PUBLIC_` and never commit `.env`. The legacy `SUPABASE_SERVICE_ROLE_KEY` variable remains supported for older Supabase projects.
 
 Generate Prisma Client and start the application:
 

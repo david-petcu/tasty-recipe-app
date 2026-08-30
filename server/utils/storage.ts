@@ -12,7 +12,7 @@ const extensions: Record<string, string> = {
 function storageConfig(event: H3Event) {
   const config = useRuntimeConfig(event)
   let url = String(config.supabaseUrl || '').replace(/\/$/, '')
-  const key = String(config.supabaseServiceRoleKey || '')
+  const key = String(config.supabaseSecretKey || '')
   if (!url) {
     try {
       const databaseUrl = new URL(process.env.DIRECT_URL || process.env.DATABASE_URL || '')
@@ -27,7 +27,7 @@ function storageConfig(event: H3Event) {
   if (!url || !key) {
     throw createError({
       statusCode: 503,
-      message: 'Image uploads are not configured. Add SUPABASE_SERVICE_ROLE_KEY and, if needed, SUPABASE_URL to .env.'
+      message: 'Image uploads are not configured. Add SUPABASE_SECRET_KEY and SUPABASE_URL to .env, then restart the server.'
     })
   }
   return { url, key }
