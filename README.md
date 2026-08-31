@@ -115,7 +115,39 @@ npm run db:audit
 
 ## Screenshots
 
-Portfolio screenshots will be added after the first public deployment so they represent the deployed version accurately.
+### Recipe discovery
+
+Visitors can search the catalogue and narrow the results by category, difficulty, cooking time, servings, chef or ingredient.
+
+![Tasty recipe discovery page with search and filtering controls](docs/screenshots/home1.png)
+
+![Responsive recipe catalogue cards](docs/screenshots/home2.png)
+
+### Recipe details
+
+Each recipe brings preparation details, ingredients and step-by-step instructions together on one page.
+
+![Recipe details with ingredients and cooking instructions](docs/screenshots/recipe-details1.png)
+
+### Chef profiles
+
+Public chef profiles present personal information and every recipe published by that chef.
+
+![Chef profile with biography and published recipes](docs/screenshots/chef-profile.png)
+
+### Recipe management
+
+Authenticated chefs can publish recipes and update their details, images, ingredients and instructions.
+
+![Recipe editing form for an authenticated chef](docs/screenshots/recipe-editor1.png)
+
+### Mobile experience
+
+The navigation, discovery tools and forms adapt to compact screens without removing core functionality.
+
+<p align="center">
+  <img src="docs/screenshots/mobile-home.png" width="357" alt="Tasty recipe discovery page on a mobile screen">
+</p>
 
 ## Demo account
 
