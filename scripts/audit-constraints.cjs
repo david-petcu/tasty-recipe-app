@@ -30,6 +30,32 @@ async function main() {
     ORDER BY table_name, ordinal_position
   `)
 
+  const rowLevelSecurity = await prisma.$queryRawUnsafe(`
+    SELECT c.relname AS table_name,
+           c.relrowsecurity AS enabled,
+           c.relforcerowsecurity AS forced
+    FROM pg_class c
+    JOIN pg_namespace n ON n.oid = c.relnamespace
+    WHERE n.nspname = 'public'
+      AND c.relname IN (${tables})
+    ORDER BY c.relname
+  `)
+
+  const rowLevelSecurityPolicies = await prisma.$queryRawUnsafe(`
+    SELECT schemaname,
+           tablename,
+           policyname,
+           permissive,
+           roles::text AS roles,
+           cmd,
+           qual,
+           with_check
+    FROM pg_policies
+    WHERE (schemaname = 'public' AND tablename IN (${tables}))
+       OR schemaname = 'storage'
+    ORDER BY schemaname, tablename, policyname
+  `)
+
   const [violations] = await prisma.$queryRawUnsafe(`
     SELECT
       (SELECT count(*) FROM chefs WHERE created_at IS NULL) AS chefs_created_at_null,
@@ -51,7 +77,15 @@ async function main() {
       EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'recipe_reviews') AS reviews_table_ready
   `)
 
-  console.log(JSON.stringify({ constraints, indexes, columns, violations, features }, (_, value) =>
+  console.log(JSON.stringify({
+    constraints,
+    indexes,
+    columns,
+    rowLevelSecurity,
+    rowLevelSecurityPolicies,
+    violations,
+    features
+  }, (_, value) =>
     typeof value === 'bigint' ? value.toString() : value, 2))
 }
 
